@@ -1,8 +1,12 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 import MainLayout from "./Components/Layout/MainLayout";
 import Home from "./Pages/Home";
 import FetchOld from "./Pages/FetchOld";
 import FetchRQ from "./Pages/FetchRQ";
+
+import "./App.css";
 
 // Create a routing using router
 const router = createBrowserRouter([
@@ -27,7 +31,13 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  return <RouterProvider router={router}></RouterProvider>;
+  const queryClient = new QueryClient();
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router}></RouterProvider>;
+    </QueryClientProvider>
+  );
 };
 
 export default App;
