@@ -12,10 +12,18 @@ const FetchRQ = () => {
     }
   };
 
-  const { data } = useQuery({
+  const { data, isPending, isError } = useQuery({
     queryKey: ["post"], // useState
     queryFn: getPostData, // useeEffect
   });
+
+  if (isPending) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (isError) {
+    return <h1>Something went wrong!</h1>;
+  }
 
   return (
     <div>
