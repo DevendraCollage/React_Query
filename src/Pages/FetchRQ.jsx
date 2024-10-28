@@ -15,6 +15,8 @@ const FetchRQ = () => {
   const { data, isPending, isError } = useQuery({
     queryKey: ["post"], // useState
     queryFn: getPostData, // useeEffect
+    gcTime: 1000, // Garbage Collection Time and Show the data
+    staleTime: 5000, // We can increase the Stale Data time using staleTime (stale means outdated)
   });
 
   if (isPending) {
