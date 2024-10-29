@@ -15,8 +15,10 @@ const FetchRQ = () => {
   const { data, isPending, isError } = useQuery({
     queryKey: ["post"], // useState
     queryFn: getPostData, // useeEffect
-    gcTime: 1000, // Garbage Collection Time and Show the data
-    staleTime: 5000, // We can increase the Stale Data time using staleTime (stale means outdated)
+    // gcTime: 1000, // Garbage Collection Time and Show the data
+    // staleTime: 5000, // We can increase the Stale Data time using staleTime (stale means outdated)
+    refetchInterval: 1000, // This will continue the polling in runtime fetched the newest data
+    refetchIntervalInBackground: true, // This option also worked in the data fetching in the background
   });
 
   if (isPending) {
