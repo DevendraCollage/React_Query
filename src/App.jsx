@@ -8,6 +8,7 @@ import FetchOld from "./Pages/FetchOld";
 import FetchRQ from "./Pages/FetchRQ";
 
 import "./App.css";
+import FetchIndv from "./Components/UI/FetchIndv";
 
 // Create a routing using router
 const router = createBrowserRouter([
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/rq",
         element: <FetchRQ />,
+      },
+      {
+        path: "/rq/:id",
+        element: <FetchIndv />,
       },
     ],
   },
