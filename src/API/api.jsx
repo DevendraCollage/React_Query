@@ -5,8 +5,8 @@ const API = axios.create({
 });
 
 // To fetch the data
-export const fetchPosts = () => {
-  return API.get("/posts");
+export const fetchPosts = (pageNumber) => {
+  return API.get(`/posts?_start=${pageNumber}&_limit=3`);
 };
 
 // To fetch the individual data
@@ -19,3 +19,5 @@ export const fetchIndvPost = async (id) => {
     throw error;
   }
 };
+
+// Pagination
