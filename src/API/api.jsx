@@ -21,3 +21,8 @@ export const fetchIndvPost = async (id) => {
 };
 
 // Pagination
+
+// Delete the post
+export const deletePost = (id) => {
+  return API.delete(`/posts/${id}`);
+};
