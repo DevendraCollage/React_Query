@@ -21,8 +21,15 @@ export const fetchIndvPost = async (id) => {
 };
 
 // Pagination
+//! Here we place the Pagination code
 
 // Delete the post
 export const deletePost = (id) => {
   return API.delete(`/posts/${id}`);
+};
+
+// Update the post
+export const updatePost = (id) => {
+  // We are using partial update function patch
+  return API.patch(`/posts/${id}`, { title: "I have Updated!" });
 };

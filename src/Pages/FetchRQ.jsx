@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { deletePost, fetchPosts } from "../API/api";
+import { deletePost, fetchPosts, updatePost } from "../API/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
@@ -32,8 +32,24 @@ const FetchRQ = () => {
   const deleteMutation = useMutation({
     mutationFn: (id) => deletePost(id),
     onSuccess: (data, id) => {
+      // This function is used for accessing the cache data
       queryClient.setQueryData(["post", pageNumber], (currElem) => {
         return currElem?.filter((post) => post.id !== id);
+      });
+    },
+  });
+
+  //! mutation function to update the post
+  const updateMutation = useMutation({
+    mutationFn: (id) => updatePost(id),
+    onSuccess: (apiData, postId) => {
+      // This function is used for accessing the cache data
+      queryClient.setQueryData(["post", pageNumber], (postData) => {
+        return postData?.map((curPost) => {
+          return curPost.id === postId
+            ? { ...curPost, title: apiData.title }
+            : curPost;
+        });
       });
     },
   });
@@ -59,6 +75,7 @@ const FetchRQ = () => {
                 <p>{body}</p>
               </NavLink>
               <button onClick={() => deleteMutation.mutate(id)}>Delete</button>
+              <button onClick={() => updateMutation.mutate(id)}>Update</button>
             </li>
           );
         })}
