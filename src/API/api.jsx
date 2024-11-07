@@ -33,3 +33,15 @@ export const updatePost = (id) => {
   // We are using partial update function patch
   return API.patch(`/posts/${id}`, { title: "I have Updated!" });
 };
+
+// Infinite Scrolling
+export const fetchUsers = async ({ pageParam = 1 }) => {
+  try {
+    const res = await axios.get(
+      `https://api.github.com/users?per_page=10&page=${pageParam}`
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

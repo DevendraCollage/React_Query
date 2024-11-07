@@ -15,6 +15,9 @@ const Header = () => {
           <li>
             <NavLink to="/rq"> FetchRQ </NavLink>
           </li>
+          <li>
+            <NavLink to="/infinite"> InfiniteScroll </NavLink>
+          </li>
         </ul>
       </div>
     </header>
