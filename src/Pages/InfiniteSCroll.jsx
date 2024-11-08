@@ -1,6 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchUsers } from "../API/api";
 import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
 const InfiniteScroll = () => {
   const {
@@ -18,20 +19,28 @@ const InfiniteScroll = () => {
     },
   });
 
-  const handleScroll = () => {
-    const bottom =
-      window.innerHeight + window.scrollY >=
-      document.documentElement.scrollHeight - 1;
+  //! This is the lengthy code process
+  // const handleScroll = () => {
+  //   const bottom =
+  //     window.innerHeight + window.scrollY >=
+  //     document.documentElement.scrollHeight - 1;
 
-    if (bottom && hasNextPage) {
-      fetchNextPage();
-    }
-  };
+  //   if (bottom && hasNextPage) {
+  //     fetchNextPage();
+  //   }
+  // };
+
+  //! This is the short process to do the work
+  //! Using this hook we can minimize the code redundancy of the above commented code.
+  const { ref, inView } = useInView({
+    threshold: 1,
+  });
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [hasNextPage]);
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [hasNextPage, inView, fetchNextPage]);
 
   if (isPending) {
     return <h1>Loading...</h1>;
@@ -63,9 +72,15 @@ const InfiniteScroll = () => {
           ))}
         </ul>
       ))}
-      {isFetchingNextPage && (
-        <h1 style={{ color: "white" }}>Loading More...</h1>
-      )}
+      <div ref={ref}>
+        {isFetchingNextPage ? (
+          <h1 style={{ color: "white" }}>Loading More...</h1>
+        ) : hasNextPage ? (
+          <h1 style={{ color: "white" }}>Scroll down to load more</h1>
+        ) : (
+          <h1>No more users</h1>
+        )}
+      </div>
     </div>
   );
 };
